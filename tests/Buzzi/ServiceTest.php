@@ -14,7 +14,7 @@ class ServiceTest extends PHPUnit_Framework_TestCase
     /**
      * @property \Buzzi\Service $defaultService - Constructed with environment variables.
      */
-	protected $defaultService;
+    protected $defaultService;
 
     /**
      * @property \Buzzi\Service $unauthorizedService - Constructed with invalid argument values.

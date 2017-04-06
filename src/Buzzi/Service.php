@@ -45,8 +45,8 @@ class Service
         $this->http = new Http($this->host, $this->id, $this->secret);
     }
 
-	/**
-	 * Is Authorized
+    /**
+     * Is Authorized
      *
      * @return \GuzzleHttp\Psr7\Response  
 	 */
@@ -55,8 +55,8 @@ class Service
     	return $this->request('GET', '/authorized');
     }
 
-	/**
-	 * Ping
+    /**
+     * Ping
      *
      * @return \GuzzleHttp\Psr7\Response 
 	 */
@@ -65,8 +65,8 @@ class Service
     	return $this->request('GET', '/ping');
     }
 
-	/**
-	 * Send
+    /**
+     * Send
      *
      * @return \GuzzleHttp\Psr7\Response  
 	 */
@@ -75,8 +75,8 @@ class Service
     	return $this->request('POST', sprintf('/event/%s/%s', $type, $version), ['json' => $payload]);
     }
 
-	/**
-	 * Fetch
+    /**
+     * Fetch
      *  
      * @return \Buzzi\Delivery
 	 */
@@ -91,8 +91,8 @@ class Service
         return null;
     }
 
-	/**
-	 * Remove
+    /**
+     * Remove
      *  
      * @param  \Buzzi\Delivery $receipt
      * @param  array           $config
@@ -113,8 +113,8 @@ class Service
     	return $this->request('DELETE', sprintf('/event?receipt=%s', $receipt));
     }
 
-	/**
-	 * Request
+    /**
+     * Request
      *
      * @param string $method
      * @param string $url

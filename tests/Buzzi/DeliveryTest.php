@@ -19,8 +19,8 @@ class DeliveryTest extends PHPUnit_Framework_TestCase
 			'x-buzzi-event-display'       => 'Test Event',
 			'x-buzzi-producer-id'         => 'fake-producer-uuid',
 			'x-buzzi-producer-display'    => 'Fake Publisher',
-	        'x-buzzi-integration-id'      => 'fake-producer-uuid',
-	        'x-buzzi-integration-display' => 'Fake Integration',
+			'x-buzzi-integration-id'      => 'fake-producer-uuid',
+			'x-buzzi-integration-display' => 'Fake Integration',
 			'x-buzzi-receipt'             => 'json.web.token',
 			'x-buzzi-var-test-1'          => 'FakeVarTest1Value',
 			'x-buzzi-var-test-2'          => 'FakeVarTest2Value',
@@ -29,10 +29,10 @@ class DeliveryTest extends PHPUnit_Framework_TestCase
 
 		$mockResponseBody = '{ "message": "Hello, World!" }';
 
-    	$mockResponse = new Response(200, $mockResponseHeaders, $mockResponseBody);
+		$mockResponse = new Response(200, $mockResponseHeaders, $mockResponseBody);
 
-        $delivery = Delivery::fromResponse($mockResponse);
+		$delivery = Delivery::fromResponse($mockResponse);
 
-        $this->assertInstanceOf(Delivery::class, $delivery);
-    }
+		$this->assertInstanceOf(Delivery::class, $delivery);
+	}
 }
