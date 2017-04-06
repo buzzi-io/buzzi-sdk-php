@@ -1,5 +1,5 @@
 {
-  "name": "buzzi/buzzi-sdk-php",
+  "name": "buzzi-io/buzzi-sdk-php",
   "homepage": "http://buzzi.io",
   "description": "Buzzi PHP SDK",
   "keywords": ["buzzi", "sdk", "php"],
