@@ -1,0 +1,32 @@
+{
+  "name": "buzzi/buzzi-sdk-php",
+  "homepage": "http://buzzi.io",
+  "description": "Buzzi PHP SDK",
+  "keywords": ["buzzi", "sdk", "php"],
+  "type": "library",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Zachary Prisk",
+      "homepage": "http://buzzi.io"
+    }
+  ],
+  "require": {
+    "php": ">=5.5",
+    "ext-curl": "*",
+    "guzzlehttp/guzzle": "~6.1"
+  },
+  "require-dev": {
+      "phpunit/phpunit": "^6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Buzzi\\": "src/Buzzi/"
+    }
+  },
+  "autoload-dev": {
+      "psr-4": {
+          "Tests\\": "tests/"
+      }
+  }
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="../vendor/autoload.php"
+         stopOnFailure="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+>
+    <testsuites>
+        <testsuite name="Tests">
+            <directory>../tests/</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="BUZZI_API_ID" value="000000b1-1111-2222-3333-000000000000"/>
+        <env name="BUZZI_API_SECRET" value="1234567812345678123456781234567812345678123456781234567812345678"/>
+    </php>
+</phpunit>
