@@ -49,7 +49,7 @@ class Service
      * Is Authorized
      *
      * @return \GuzzleHttp\Psr7\Response  
-	 */
+     */
     public function isAuthorized()
     {
     	return $this->request('GET', '/authorized');
@@ -59,7 +59,7 @@ class Service
      * Ping
      *
      * @return \GuzzleHttp\Psr7\Response 
-	 */
+     */
     public function ping()
     {
     	return $this->request('GET', '/ping');
@@ -69,7 +69,7 @@ class Service
      * Send
      *
      * @return \GuzzleHttp\Psr7\Response  
-	 */
+     */
     public function send($type, $payload, $version = self::API_DEFAULT_VERSION)
     {
     	return $this->request('POST', sprintf('/event/%s/%s', $type, $version), ['json' => $payload]);
@@ -79,7 +79,7 @@ class Service
      * Fetch
      *  
      * @return \Buzzi\Delivery
-	 */
+     */
     public function fetch()
     {
         $response = $this->request('GET', '/event');
@@ -97,7 +97,7 @@ class Service
      * @param  \Buzzi\Delivery $receipt
      * @param  array           $config
      * @return \GuzzleHttp\Psr7\Response
-	 */
+     */
     public function remove($receipt)
     {
         if($receipt instanceof Delivery)
@@ -120,7 +120,7 @@ class Service
      * @param string $url
      * @param array  $config
      * @return \GuzzleHttp\Psr7\Response
-	 */
+     */
     protected function request(string $method, string $url, array $config = [])
     {
     	return $this->http->request($method, $url, $config);
