@@ -76,7 +76,7 @@ class Delivery
     	// Parse Buzzi variable headers and add to data.
     	$data['variables'] = self::getVariablesFromHeaders($response->getHeaders());
 
-    	// Add body tp data.
+    	// Add body to data.
     	$data['body'] = $response->getBody();
 
     	// Build and return object.
