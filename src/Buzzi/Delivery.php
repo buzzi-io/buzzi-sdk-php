@@ -34,7 +34,7 @@ class Delivery
      *
      * @param  array $data A key-value pair: key: property name && value: property value.
      */
-    public function __construct(array $data)
+    public function __construct($data)
     {
     	foreach($data as $key => $value)
     	{
@@ -89,7 +89,7 @@ class Delivery
      * @param  array A key-value pair: key is the header name and value is header value.
      * @return array
      */
-    private static function getVariablesFromHeaders(array $headers)
+    private static function getVariablesFromHeaders($headers)
     {
         // Init
     	$variable = [];

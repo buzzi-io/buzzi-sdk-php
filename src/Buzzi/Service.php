@@ -37,7 +37,7 @@ class Service
     /**
      * Construct
      */
-    public function __construct(string $id = null, string $secret = null, string $host = null)
+    public function __construct($id = null, $secret = null, $host = null)
     {
         $this->setId($id);
         $this->setSecret($secret);
@@ -121,7 +121,7 @@ class Service
      * @param array  $config
      * @return \GuzzleHttp\Psr7\Response
      */
-    protected function request(string $method, string $url, array $config = [])
+    protected function request($method, $url, $config = [])
     {
     	return $this->http->request($method, $url, $config);
     }
@@ -180,7 +180,7 @@ class Service
      * @param  string $string
      * @return bool
      */
-    protected function isJwt(string $string)
+    protected function isJwt($string)
     {   
         return (count(explode(".", $string)) === 3);
     }

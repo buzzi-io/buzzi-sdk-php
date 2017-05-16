@@ -37,7 +37,7 @@ class Http
      * @param  array  $config
      * @return \GuzzleHttp\Psr7\Response
      */
-    public function request(string $method, string $uri, array $config = [])
+    public function request($method, $uri, $config = [])
     {
         return $this->client->request($method, $uri, $config);
     }
