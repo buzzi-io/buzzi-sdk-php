@@ -12,19 +12,17 @@ class Http
     private $client;
 
     /**
-     * Construct
+     * Construct the Guzzle Client.
      *
-     * @param string $baseUri
-     * @param string $authUsername
-     * @param string $authPassword
+     * @param array $config
      */
-    public function __construct($baseUri, $authUsername, $authPassword)
+    public function __construct($config)
     {
-    	$this->client = new Client([
-            'base_uri' => $baseUri,
+        $this->client = new Client([
+            'base_uri' => $config['host'],
             'auth'     => [
-                $authUsername,
-                $authPassword
+                $config['auth_id'],
+                $config['auth_secret']
             ]
         ]);
     }

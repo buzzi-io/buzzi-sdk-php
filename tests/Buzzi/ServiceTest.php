@@ -1,10 +1,10 @@
 <?php
 
 use Buzzi\Delivery;
+use Buzzi\Events\Generic as GenericEvent;
 use Buzzi\Service;
-use Buzzi\Events\Ecommerce;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7\Response;
 
 class ServiceTest extends PHPUnit_Framework_TestCase
 {
@@ -29,8 +29,8 @@ class ServiceTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->defaultService = new Service();
-        $this->unauthorizedService = new Service('INVALID_ID', 'INVALID_SECRET');
-        $this->manuallyConstructedService = new Service(self::TEST_BUZZI_API_ID, self::TEST_BUZZI_API_SECRET);
+        $this->unauthorizedService = new Service(['auth_id' => 'INVALID_ID', 'auth_secret' => 'INVALID_SECRET']);
+        $this->manuallyConstructedService = new Service(['auth_id' => self::TEST_BUZZI_API_ID, 'auth_secret' => self::TEST_BUZZI_API_SECRET]);
     }
 
     public function testPing()
@@ -72,7 +72,7 @@ class ServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testSend()
     {
-        $response = $this->defaultService->send(Ecommerce::TEST, ["message" => "Hello, World!", "timestamp" => date(DATE_ATOM)]);
+        $response = $this->defaultService->send(GenericEvent::TEST, ["message" => "Hello, World!", "timestamp" => date(DATE_ATOM)]);
 
         $this->assertInstanceOf(Response::class, $response);
 
@@ -94,7 +94,7 @@ class ServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testRemove()
     {
-        $sendResponse = $this->defaultService->send(Ecommerce::TEST, ["message" => "Hello, World!", "timestamp" => date(DATE_ATOM)]);
+        $sendResponse = $this->defaultService->send(GenericEvent::TEST, ["message" => "Hello, World!", "timestamp" => date(DATE_ATOM)]);
 
         $this->assertInstanceOf(Response::class, $sendResponse);
 

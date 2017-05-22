@@ -9,25 +9,11 @@ class Service
 {
     const API_DEFAULT_VERSION = 'v1.0';
     const API_DEFAULT_HOST    = 'https://core.buzzi.io';
+    const API_SANDBOX_HOST    = 'https://sandbox-core.buzzi.io';
 
     const API_HOST_ENV_NAME   = 'BUZZI_API_HOST';
     const API_ID_ENV_NAME     = 'BUZZI_API_ID';
     const API_SECRET_ENV_NAME = 'BUZZI_API_SECRET';
-
-    /**
-     * @property string $id
-     */
-    private $id;
-
-    /**
-     * @property string $secret
-     */
-    private $secret;
-
-    /**
-     * @property string $host
-     */
-    private $host;
 
     /**
      * @property \Buzzi\Http $http
@@ -35,14 +21,20 @@ class Service
     protected $http;
 
     /**
-     * Construct
-     */
-    public function __construct($id = null, $secret = null, $host = null)
+    * Construct the Buzzi Client.
+    *
+    * @param array $config
+    */
+    public function __construct($config = [])
     {
-        $this->setId($id);
-        $this->setSecret($secret);
-        $this->setHost($host);
-        $this->http = new Http($this->host, $this->id, $this->secret);
+        $this->config = array_merge(
+            [
+                'host'        => null,
+                'auth_id'     => null,
+                'auth_secret' => null
+            ],
+            $config
+        );
     }
 
     /**
@@ -123,55 +115,9 @@ class Service
      */
     protected function request($method, $url, $config = [])
     {
-    	return $this->http->request($method, $url, $config);
-    }
+        $http = $this->getHttp();
 
-    /**
-     * Set $id property - if null given check for env value.
-     *
-     * @param  string $id
-     * @return void
-     */
-    protected function setId($id)
-    {
-        if(is_null($id))
-        {
-            $id = (empty(getenv(self::API_ID_ENV_NAME)) ? null : getenv(self::API_ID_ENV_NAME));
-        }
-
-        $this->id = $id;
-    }
-
-    /**
-     * Set $secret property, if null is given check for env value.
-     *
-     * @param  string $secret
-     * @return void
-     */
-    protected function setSecret($secret)
-    {
-        if(is_null($secret))
-        {
-            $secret = (empty(getenv(self::API_SECRET_ENV_NAME)) ? null : getenv(self::API_SECRET_ENV_NAME));
-        }
-
-        $this->secret = $secret;
-    }
-
-    /**
-     * Set $host property, if null is given check for env value or utilize default.
-     *
-     * @param  string $host
-     * @return void
-     */
-    protected function setHost($host)
-    {
-        if(is_null($host))
-        {
-            $host = (empty(getenv(self::API_HOST_ENV_NAME)) ? self::API_DEFAULT_HOST : getenv(self::API_HOST_ENV_NAME));
-        }
-
-        $this->host = $host;
+    	return $http->request($method, $url, $config);
     }
 
     /**
@@ -183,5 +129,72 @@ class Service
     protected function isJwt($string)
     {   
         return (count(explode(".", $string)) === 3);
+    }
+
+    /**
+     * Set the Http Client object.
+     * 
+     * @param  Buzzi\Http $http
+     * @return void
+     */
+    public function setHttp($http)
+    {
+        $this->http = $http;
+    }
+
+    /**
+     * @return GuzzleHttp\ClientInterface implementation
+     */
+    public function getHttp()
+    {
+        if(null === $this->http)
+        {
+            $this->http = $this->createDefaultHttp();
+        }
+
+        return $this->http;
+    }
+
+    /**
+     * Create default Http instance.
+     * 
+     * @return Buzzi\Http
+     */
+    protected function createDefaultHttp()
+    {
+        // Use configured base path if provided.
+        $options = $this->config;
+
+        // Guzzle exceptions option.
+        $options['exceptions'] = false;
+
+        // If sandbox option exists and is true, utilize the sandbox host const.
+        if(array_key_exists('sandbox', $options))
+        {
+            if($options['sandbox'])
+            {
+                $options['host'] = self::API_SANDBOX_HOST; 
+            }
+        }
+
+        // Attempt to fallback to default base path if still empty.
+        if(empty($options['host']))
+        {
+            $options['host'] = (getenv(self::API_HOST_ENV_NAME) ? getenv(self::API_HOST_ENV_NAME) : self::API_DEFAULT_HOST); 
+        }
+
+        // Attempt to fallback to default auth identifer if empty.
+        if(empty($options['auth_id']))
+        {
+            $options['auth_id'] = (getenv(self::API_ID_ENV_NAME) ? getenv(self::API_ID_ENV_NAME) : null);
+        }
+
+        // Attempt to fallback to default auth secret if empty.
+        if(empty($options['auth_secret']))
+        {
+            $options['auth_secret'] = (getenv(self::API_SECRET_ENV_NAME) ? getenv(self::API_SECRET_ENV_NAME) : null);
+        }
+
+        return new Http($options);
     }
 }
