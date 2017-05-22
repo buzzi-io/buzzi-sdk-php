@@ -23,17 +23,17 @@ A Service that sends data (Publish) and receives data (Consume).
 ```php
 
 use Buzzi\Service;
-use Buzzi\Events\Ecommerce;
+use Buzzi\Events\Generic as GenericEvent;
 
 const BUZZI_API_ID     = "<your-buzzi-api-id-here>";
 const BUZZI_API_SECRET = "<your-buzzi-api-secret-here>";
 
 // Init
-$service = new Service(BUZZI_API_ID, BUZZI_API_SECRET);
+$service = new Service(['auth_id' => BUZZI_API_ID, 'auth_secret' => BUZZI_API_SECRET]);
 
 
 // Send Event
-$response = $service->send(Ecommerce::TEST, ["message" => "Hello, World", "timestamp" => date(DATE_ATOM)]);
+$response = $service->send(GenericEvent::TEST, ["message" => "Hello, World", "timestamp" => date(DATE_ATOM)]);
 
 
 ```
