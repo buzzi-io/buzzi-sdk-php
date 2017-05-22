@@ -10,7 +10,6 @@ class Service
     const API_DEFAULT_VERSION = 'v1.0';
     const API_DEFAULT_HOST    = 'https://core.buzzi.io';
     const API_SANDBOX_HOST    = 'https://sandbox-core.buzzi.io';
-
     const API_HOST_ENV_NAME   = 'BUZZI_API_HOST';
     const API_ID_ENV_NAME     = 'BUZZI_API_ID';
     const API_SECRET_ENV_NAME = 'BUZZI_API_SECRET';
@@ -68,6 +67,17 @@ class Service
     }
 
     /**
+     * Upload File(s)
+     *
+     * @param  array $data
+     * @return \GuzzleHttp\Psr7\Response
+     */
+    public function upload($data)
+    {
+        return $this->request('POST', '/files', ['multipart' => $data]);
+    }
+
+    /**
      * Fetch
      *  
      * @return \Buzzi\Delivery
@@ -76,7 +86,8 @@ class Service
     {
         $response = $this->request('GET', '/event');
 
-        if ($response->getStatusCode() !== 204) {
+        if($response->getStatusCode() !== 204)
+        {
             return Delivery::fromResponse($response);
         }
 
