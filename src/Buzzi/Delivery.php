@@ -2,125 +2,73 @@
 
 namespace Buzzi;
 
+use Buzzi\Utils\StringUtils;
+
+/**
+ * @method string getAccountId()
+ * @method string getAccountDisplay()
+ * @method string getConsumerId()
+ * @method string getConsumerDisplay()
+ * @method string getDeliveryId()
+ * @method string getEventId()
+ * @method string getEventType()
+ * @method string getEventVersion()
+ * @method string getEventDisplay()
+ * @method string getProducerId()
+ * @method string getProducerDisplay()
+ * @method string getIntegrationId
+ * @method string getIntegrationDisplay
+ * @method string getReceipt
+ * @method string getVariables
+ * @method string getBody
+ */
 class Delivery
 {
-    const BUZZI_HEADER_PREFIX     = 'x-buzzi-';
-    const BUZZI_VAR_HEADER_PREFIX = 'x-buzzi-var-';
+    use StringUtils;
 
     /**
-     * @properties
+     * @var
      */
-    public $accountId          = null;
-    public $accountDisplay     = null;
-    public $consumerId         = null;
-    public $consumerDisplay    = null;
-    public $deliveryId         = null;
-    public $eventId            = null;
-    public $eventType          = null;
-    public $eventVersion       = null;
-    public $eventDisplay       = null;
-    public $producerId         = null;
-    public $producerDisplay    = null;
-    public $integrationId      = null;
-    public $integrationDisplay = null;
-    public $receipt            = null;
-    public $variables          = null;
-    public $body               = null;
+    protected $data = [];
 
     /**
-     * Construct
-     *
-     * @param  array $data A key-value pair: key: property name && value: property value.
+     * @param array $data A key-value pair: key: property name && value: property value.
      */
-    public function __construct($data)
+    public function __construct(array $data)
     {
-        foreach($data as $key => $value)
-        {
-            $key = $this->snakeCaseToCamelCase($key);
-            $this->$key = $value;
-        }
+        $this->data = $data;
     }
 
     /**
-     * Construct new Delivery object from response.
-     *
-     * @param  array A key-value pair: key: header name && value: header value.
-     * @return new \Buzzi\Delivery
+     * @param string $method
+     * @param array $args
+     * @return mixed
      */
-    public static function fromResponse($response)
+    public function __call($method, $args)
     {
-        // Init
-        $data = [];
-
-        // Iterate header, skip Buzzi vars & non Buzzi headers, and add to data.
-        foreach($response->getHeaders() as $name => $values)
-        {
-            if(strpos($name, self::BUZZI_HEADER_PREFIX) !== false && strpos($name, self::BUZZI_VAR_HEADER_PREFIX) === false)
-            {
-                $data[self::kebabCaseToSnakeCase(str_replace(self::BUZZI_HEADER_PREFIX, '', $name))] = implode(', ', $values);
-            }
+        switch (substr($method, 0, 3)) {
+            case 'get':
+                $key = $this->underscore(substr($method, 3));
+                return $this->getData($key);
         }
 
-        // Parse Buzzi variable headers and add to data.
-        $data['variables'] = self::getVariablesFromHeaders($response->getHeaders());
-
-        // Add body tp data.
-        $data['body'] = $response->getBody();
-
-        // Build and return object.
-        return new self($data);
+        throw new \BadMethodCallException(self::class . '::' . $method . ' method is not defined.');
     }
 
     /**
-     * Parse variables from an array of headers.
-     *
-     * @param  array A key-value pair: key is the header name and value is header value.
+     * @param $key
+     * @return mixed|null
+     */
+    protected function getData($key)
+    {
+        return isset($this->data[$key]) ? $this->data[$key] : null;
+    }
+
+    /**
      * @return array
      */
-    private static function getVariablesFromHeaders($headers)
+    public function toArray()
     {
-        // Init
-        $variable = [];
-
-        foreach($headers as $name => $values)
-        {
-            if(strpos($name, self::BUZZI_VAR_HEADER_PREFIX) !== false)
-            {
-                // Remove the Buzzi var header prefix.
-                $variable[str_replace(self::BUZZI_VAR_HEADER_PREFIX, '', $name)] = implode(', ', $values);
-            }
-        }
-
-        return $variable;
-    }
-
-    /**
-     * Convert kebab-case-strings to snake_case.
-     *
-     * @param  string $string
-     * @return string
-     */
-    private static function kebabCaseToSnakeCase($string) 
-    {
-        return str_replace('-', '_', $string);
-    }
-
-    /**
-     * Convert snake_case to camelCase.
-     *
-     * @param  string $string
-     * @param  bool   $capitalizeFirstCharacter (optional)
-     * @return string
-     */
-    private static function snakeCaseToCamelCase($string, $capitalizeFirstCharacter = false) 
-    {
-        $str = str_replace('_', '', ucwords($string, '_'));
-
-        if( ! $capitalizeFirstCharacter)
-        {
-            $str = lcfirst($str);
-        }
-
-        return $str;
+        return $this->data;
     }
 }
