@@ -1,6 +1,6 @@
 <?php
 
-namespace Buzzi;
+namespace Buzzi\Consume;
 
 use Buzzi\Utils\StringUtils;
 
