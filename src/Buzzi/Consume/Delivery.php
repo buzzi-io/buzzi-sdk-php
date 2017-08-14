@@ -19,8 +19,8 @@ use Buzzi\Utils\StringUtils;
  * @method string getIntegrationId
  * @method string getIntegrationDisplay
  * @method string getReceipt
- * @method string getVariables
- * @method string getBody
+ * @method array getVariables
+ * @method array getBody
  */
 class Delivery
 {
