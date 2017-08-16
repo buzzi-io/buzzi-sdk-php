@@ -1,3 +1,13 @@
+# 2.0.0 (2017-08-16)
+
+### Highlights
+
+* Introduced Buzzi\Sdk object which is a registry for SDK services
+* Introduced Buzzi\Support\SupportService service
+* Introduced Buzzi\Publish\PublishService service
+* Introduced Buzzi\Publish\ConsumeService service
+* Refactored Buzzi\Delivery and renamed to Buzzi\Consume\Delivery
+
 # 0.1.0 (2017-05-22)
 
 ### Breaking Changes
