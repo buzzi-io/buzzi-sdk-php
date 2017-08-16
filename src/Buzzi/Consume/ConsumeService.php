@@ -125,8 +125,6 @@ class ConsumeService
      *
      * @param \Buzzi\Consume\Delivery $delivery
      * @return bool
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
      * @throws \Buzzi\Exception\HttpException
      */
     public function confirmDelivery(Delivery $delivery)
@@ -139,8 +137,6 @@ class ConsumeService
      *
      * @param string $deliveryReceipt
      * @return bool
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
      * @throws \Buzzi\Exception\HttpException
      */
     public function confirm($deliveryReceipt)
@@ -151,8 +147,9 @@ class ConsumeService
 
     /**
      * @param string $deliveryReceipt
-     * @param mixed $errorData
+     * @param mixed[] $errorData
      * @return bool
+     * @throws \Buzzi\Exception\HttpException
      */
     public function submitError($deliveryReceipt, array $errorData)
     {
