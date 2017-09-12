@@ -7,26 +7,19 @@
   "license": "proprietary",
   "authors": [
     {
-      "name": "Zachary Prisk",
+      "name": "Buzzi team",
       "homepage": "http://buzzi.io"
     }
   ],
   "require": {
     "php": ">=5.5",
     "ext-curl": "*",
-    "guzzlehttp/guzzle": "~6.1"
-  },
-  "require-dev": {
-      "phpunit/phpunit": "^6.0"
+    "guzzlehttp/guzzle": "~6.1",
+    "monolog/monolog": "^1.16.0"
   },
   "autoload": {
     "psr-4": {
       "Buzzi\\": "src/Buzzi/"
     }
-  },
-  "autoload-dev": {
-      "psr-4": {
-          "Tests\\": "tests/"
-      }
   }
 }
